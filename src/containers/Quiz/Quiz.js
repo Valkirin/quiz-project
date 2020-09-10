@@ -5,10 +5,23 @@ import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz';
 export class Quiz extends Component {
   //dynamical content
   state = {
+    activeQuestion: 0,
     quiz: [
       {
-        question: 'How color your eyes?',
+        question: 'How color is a sky?',
         rightAnswer: 2,
+        id: 1,
+        answers: [
+          { text: 'Grey', id: 1 },
+          { text: 'Blue', id: 2 },
+          { text: 'Green', id: 3 },
+          { text: 'Red', id: 4 },
+        ],
+      },
+      {
+        question: 'How color your eyes?',
+        rightAnswer: 3,
+        id: 2,
         answers: [
           { text: 'Grey', id: 1 },
           { text: 'Blue', id: 2 },
@@ -21,6 +34,10 @@ export class Quiz extends Component {
 
   onAnswerClickHandler = (answerID) => {
     console.log('Answer ID', answerID);
+
+    this.setState({
+      activeQuestion: this.state.activeQuestion + 1,
+    });
   };
 
   render() {
@@ -29,9 +46,11 @@ export class Quiz extends Component {
         <div className={classes.QuizWrapper}>
           <h1>PAEI test</h1>
           <ActiveQuiz
-            answers={this.state.quiz[0].answers}
-            question={this.state.quiz[0].question}
+            answers={this.state.quiz[this.state.activeQuestion].answers}
+            question={this.state.quiz[this.state.activeQuestion].question}
             onAnswerClick={this.onAnswerClickHandler}
+            quizLength={this.state.quiz.length}
+            answerNumber={this.state.activeQuestion + 1}
           />
         </div>
       </div>
