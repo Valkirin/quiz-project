@@ -6,7 +6,8 @@ import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz';
 export class Quiz extends Component {
   //dynamical content
   state = {
-    isFinished: true,
+    result: {}, //{[id]: success error}
+    isFinished: false,
     activeQuestion: 0,
     answerState: null, //{[id]: 'success' 'error'}
 
@@ -45,10 +46,14 @@ export class Quiz extends Component {
     }
 
     const question = this.state.quiz[this.state.activeQuestion];
-
+    const result = this.state.result;
     if (question.rightAnswerId === answerID) {
+      if (!result[question.id]) {
+        result[question.id] = 'success';
+      }
       this.setState({
         answerState: { [answerID]: 'success' },
+        result,
       });
 
       const timeout = window.setTimeout(() => {
@@ -66,8 +71,10 @@ export class Quiz extends Component {
         window.clearTimeout(timeout);
       }, 1000);
     } else {
+      result[question.id] = 'error';
       this.setState({
         answerState: { [answerID]: 'error' },
+        result,
       });
     }
   };
@@ -76,6 +83,15 @@ export class Quiz extends Component {
     return this.state.activeQuestion + 1 === this.state.quiz.length;
   }
 
+  retryHandler = () => {
+    this.setState({
+      activeQuestion: 0,
+      answerState: null,
+      isFinished: false,
+      result: {},
+    });
+  };
+
   render() {
     return (
       <div className={classes.Quiz}>
@@ -83,7 +99,11 @@ export class Quiz extends Component {
           <h1>PAEI test</h1>
 
           {this.state.isFinished ? (
-            <FinishedQuiz />
+            <FinishedQuiz
+              result={this.state.result}
+              quiz={this.state.quiz}
+              onRetry={this.retryHandler}
+            />
           ) : (
             <ActiveQuiz
               answers={this.state.quiz[this.state.activeQuestion].answers}
