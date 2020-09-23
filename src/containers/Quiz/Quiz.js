@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from '../Quiz/Quiz.css';
 import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz';
 import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz';
+import axios from '../../axios/axios-quiz';
 
 export class Quiz extends Component {
   //dynamical content
@@ -92,7 +93,7 @@ export class Quiz extends Component {
     });
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     console.log('Quiz ID = ', this.props.match.params.id);
   }
 
