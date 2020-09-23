@@ -6,12 +6,12 @@ import axios from '../../axios/axios-quiz';
 
 export default class QuizList extends Component {
   state = {
-    quizes: [],
+    quiz: [],
     loading: true,
   };
 
   renderQuizes() {
-    return this.state.quizes.map((quiz) => {
+    return this.state.quiz.map((quiz) => {
       return (
         <li key={quiz.id}>
           <NavLink to={'/quiz/' + quiz}>{quiz.name}</NavLink>
@@ -22,33 +22,25 @@ export default class QuizList extends Component {
 
   async componentDidMount() {
     try {
-      const response = await axios.get('quiz.json');
+      const response = await axios.get('/quiz.json');
 
-      const quizes = [];
+      const quiz = [];
 
       Object.keys(response.data).forEach((key, index) => {
-        quizes.push({
+        quiz.push({
           id: key,
           name: `TEST №${index + 1}`,
         });
       });
 
       this.setState({
-        quizes,
+        quiz,
         loading: false,
       });
     } catch (e) {
       console.log(e);
     }
   }
-
-  // componentDidMount() {
-  //   axios
-  //     .get('https://quiz-project-60da6.firebaseio.com/quiz.json')
-  //     .then((response) => {
-  //       console.log(response);
-  //     });
-  // }
 
   render() {
     return (
