@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import classes from '../Quiz/Quiz.css';
-import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz';
-import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz';
-import Loader from '../../components/UI/Loader/Loader';
-import axios from '../../axios/axios-quiz';
+import React, { Component } from 'react'
+import classes from '../Quiz/Quiz.css'
+import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz'
+import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
+import Loader from '../../components/UI/Loader/Loader'
+import axios from '../../axios/axios-quiz'
 
 export class Quiz extends Component {
   //dynamical content
@@ -14,52 +14,52 @@ export class Quiz extends Component {
     answerState: null,
     quiz: [],
     loading: true,
-  };
+  }
 
-  onAnswerClickHandler = (answerID) => {
+  onAnswerClickHandler = answerId => {
     if (this.state.answerState) {
-      const key = Object.keys(this.state.answerState)[0];
+      const key = Object.keys(this.state.answerState)[0]
       if (this.state.answerState[key] === 'success') {
-        return;
+        return
       }
     }
 
-    const question = this.state.quiz[this.state.activeQuestion];
-    const result = this.state.result;
-    if (question.rightAnswerId === answerID) {
+    const question = this.state.quiz[this.state.activeQuestion]
+    const result = this.state.result
+    if (question.rightAnswerId === answerId) {
       if (!result[question.id]) {
-        result[question.id] = 'success';
+        result[question.id] = 'success'
       }
       this.setState({
-        answerState: { [answerID]: 'success' },
+        answerState: { [answerId]: 'success' },
         result,
-      });
+      })
 
       const timeout = window.setTimeout(() => {
         if (this.isQuizFinished()) {
           this.setState({
             isFinished: true,
-          });
+          })
         } else {
           this.setState({
             activeQuestion: this.state.activeQuestion + 1,
             answerState: null,
-          });
+          })
         }
 
-        window.clearTimeout(timeout);
-      }, 1000);
+        window.clearTimeout(timeout)
+      }, 1000)
     } else {
-      result[question.id] = 'error';
+      result[question.id] = 'error'
       this.setState({
-        answerState: { [answerID]: 'error' },
+        answerState: { [answerId]: 'error' },
         result,
-      });
+      })
     }
-  };
+  }
 
   isQuizFinished() {
-    return this.state.activeQuestion + 1 === this.state.quiz.length;
+    return this.state.activeQuestion + 1 === this.state.quiz.length
   }
 
   retryHandler = () => {
@@ -68,22 +68,22 @@ export class Quiz extends Component {
       answerState: null,
       isFinished: false,
       result: {},
-    });
-  };
+    })
+  }
 
   async componentDidMount() {
     try {
       const response = await axios.get(
         `/quiz/${this.props.match.params.id}.json`
-      );
-      const quiz = response.data;
+      )
+      const quiz = response.data
 
       this.setState({
         quiz,
         loading: false,
-      });
+      })
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
@@ -113,8 +113,8 @@ export class Quiz extends Component {
           )}
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Quiz;
+export default Quiz
