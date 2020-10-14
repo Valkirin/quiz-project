@@ -26,6 +26,28 @@ function fetchQuizes() {
   }
 }
 
+export function fetchQuizById(quizId) {
+  return async (dispatch) => {
+    dispatch(fetchQuizesStart())
+
+    try {
+      const response = await axios.get(`/quiz/${quizId}.json`)
+      const quiz = response.data
+
+      dispatch(fetchQuizSuccess(quiz))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export function fetchQuizSuccess(quiz) {
+  return {
+    type: '',
+    quiz,
+  }
+}
+
 export function fetchQuizesStart() {
   return {
     type: FETCH_QUIZES_START,

@@ -5,6 +5,7 @@ import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
 import Loader from '../../components/UI/Loader/Loader'
 import axios from '../../axios/axios-quiz'
 import { connect } from 'react-redux'
+import { fetchQuizById } from '../../store/actions/quiz'
 
 export class Quiz extends Component {
   onAnswerClickHandler = (answerId) => {
@@ -62,21 +63,7 @@ export class Quiz extends Component {
     })
   }
 
-  async componentDidMount() {
-    try {
-      const response = await axios.get(
-        `/quiz/${this.props.match.params.id}.json`
-      )
-      const quiz = response.data
-
-      this.setState({
-        quiz,
-        loading: false,
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  componentDidMount() {}
 
   render() {
     return (
@@ -121,7 +108,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchQuizByID: (id) => dispatch(fetchQuizByID()),
+    fetchQuizById: (id) => dispatch(fetchQuizById()),
   }
 }
 
