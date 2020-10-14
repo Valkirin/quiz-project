@@ -2,6 +2,7 @@ import axios from '../../axios/axios-quiz'
 
 export function fetchQuizes() {
   return async (dispatch) => {
+    dispatch(fetchQuizesStart())
     try {
       const response = await axios.get('/quiz.json')
 
@@ -13,13 +14,15 @@ export function fetchQuizes() {
           name: `TEST №${index + 1}`,
         })
       })
-
-      this.setState({
-        quizes,
-        loading: false,
-      })
+      dispatch(fetchQuizesSuccess(quizes))
     } catch (e) {
-      console.log(e)
+      dispatch(fetchQuizesError(e))
     }
   }
 }
+
+export function fetchQuizesStart() {}
+
+export function fetchQuizesSuccess(quizes) {}
+
+export function fetchQuizesError(e) {}
