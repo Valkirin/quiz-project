@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import classes from './QuizList.css'
 import { NavLink } from 'react-router-dom'
 import Loader from '../../components/UI/Loader/Loader'
-import axios from '../../axios/axios-quiz'
 import { connect } from 'react-redux'
+import fetchQuizes from '../../store/actions/quiz'
 
 class QuizList extends Component {
   renderQuizes() {
@@ -18,25 +18,6 @@ class QuizList extends Component {
 
   componentDidMount() {
     this.props.fetchQuizes()
-    // try {
-    //   const response = await axios.get('/quiz.json')
-
-    //   const quizes = []
-
-    //   Object.keys(response.data).forEach((key, index) => {
-    //     quizes.push({
-    //       id: key,
-    //       name: `TEST №${index + 1}`,
-    //     })
-    //   })
-
-    //   this.setState({
-    //     quizes,
-    //     loading: false,
-    //   })
-    // } catch (e) {
-    //   console.log(e)
-    // }
   }
 
   render() {
@@ -45,7 +26,11 @@ class QuizList extends Component {
         <div>
           <h1>Quiz List</h1>
 
-          {this.state.loading ? <Loader /> : <ul>{this.renderQuizes()}</ul>}
+          {this.props.loading && this.props.quizes.length !== 0 ? (
+            <Loader />
+          ) : (
+            <ul>{this.renderQuizes()}</ul>
+          )}
         </div>
       </div>
     )
