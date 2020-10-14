@@ -4,19 +4,10 @@ import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz'
 import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
 import Loader from '../../components/UI/Loader/Loader'
 import axios from '../../axios/axios-quiz'
+import { connect } from 'react-redux'
 
 export class Quiz extends Component {
-  //dynamical content
-  state = {
-    result: {},
-    isFinished: false,
-    activeQuestion: 0,
-    answerState: null,
-    quiz: [],
-    loading: true,
-  }
-
-  onAnswerClickHandler = answerId => {
+  onAnswerClickHandler = (answerId) => {
     if (this.state.answerState) {
       const key = Object.keys(this.state.answerState)[0]
       if (this.state.answerState[key] === 'success') {
@@ -117,4 +108,21 @@ export class Quiz extends Component {
   }
 }
 
-export default Quiz
+function mapStateToProps(state) {
+  return {
+    result: state.quiz.results,
+    isFinished: state.quiz.isFinished,
+    activeQuestion: state.quiz.activeQuestion,
+    answerState: state.quiz.answerState,
+    quiz: state.quiz.quiz,
+    loading: state.quiz.loading,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchQuizByID: (id) => dispatch(fetchQuizByID()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Quiz)

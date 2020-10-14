@@ -8,6 +8,11 @@ const initialState = {
   quizes: [],
   loading: false,
   error: null,
+  result: {},
+  isFinished: false,
+  activeQuestion: 0,
+  answerState: null,
+  quiz: null,
 }
 
 export default function quizReducer(state = initialState, action) {
