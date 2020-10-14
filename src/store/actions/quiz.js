@@ -3,6 +3,7 @@ import {
   FETCH_QUIZES_ERROR,
   FETCH_QUIZES_START,
   FETCH_QUIZES_SUCCESS,
+  FETCH_QUIZ_SUCCESS,
 } from './actionTypes'
 
 function fetchQuizes() {
@@ -36,14 +37,14 @@ export function fetchQuizById(quizId) {
 
       dispatch(fetchQuizSuccess(quiz))
     } catch (e) {
-      console.log(e)
+      fetchQuizesError(e)
     }
   }
 }
 
 export function fetchQuizSuccess(quiz) {
   return {
-    type: '',
+    type: FETCH_QUIZ_SUCCESS,
     quiz,
   }
 }

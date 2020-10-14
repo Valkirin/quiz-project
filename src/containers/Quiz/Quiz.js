@@ -63,7 +63,9 @@ export class Quiz extends Component {
     })
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.fetchQuizById(this.props.match.params.id)
+  }
 
   render() {
     return (
@@ -71,22 +73,22 @@ export class Quiz extends Component {
         <div className={classes.QuizWrapper}>
           <h1>PAEI test</h1>
 
-          {this.state.loading ? (
+          {this.props.loading || !this.props.quiz ? (
             <Loader />
-          ) : this.state.isFinished ? (
+          ) : this.props.isFinished ? (
             <FinishedQuiz
-              result={this.state.result}
-              quiz={this.state.quiz}
+              result={this.props.result}
+              quiz={this.props.quiz}
               onRetry={this.retryHandler}
             />
           ) : (
             <ActiveQuiz
-              answers={this.state.quiz[this.state.activeQuestion].answers}
-              question={this.state.quiz[this.state.activeQuestion].question}
+              answers={this.props.quiz[this.props.activeQuestion].answers}
+              question={this.props.quiz[this.props.activeQuestion].question}
               onAnswerClick={this.onAnswerClickHandler}
-              quizLength={this.state.quiz.length}
-              answerNumber={this.state.activeQuestion + 1}
-              state={this.state.answerState}
+              quizLength={this.props.quiz.length}
+              answerNumber={this.props.activeQuestion + 1}
+              state={this.props.answerState}
             />
           )}
         </div>
@@ -108,7 +110,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchQuizById: (id) => dispatch(fetchQuizById()),
+    fetchQuizById: (id) => dispatch(fetchQuizById(id)),
   }
 }
 
