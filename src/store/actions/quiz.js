@@ -4,7 +4,10 @@ import {
   FETCH_QUIZES_START,
   FETCH_QUIZES_SUCCESS,
   FETCH_QUIZ_SUCCESS,
-  QUIZ_SET_STATE
+  QUIZ_SET_STATE,
+  FINISH_QUIZ,
+  QUIZ_NEXT_QUESTION,
+  QUIZ_RETRY,
 } from './actionTypes';
 
 function fetchQuizes() {
@@ -78,6 +81,25 @@ export function quizSetState(answerState, result) {
   };
 }
 
+export function finishQuiz() {
+  return {
+    type: FINISH_QUIZ,
+  };
+}
+
+export function quizNextQuestion(number) {
+  return {
+    type: QUIZ_NEXT_QUESTION,
+    number,
+  };
+}
+
+export function retryQuiz() {
+  return {
+    type: QUIZ_RETRY,
+  };
+}
+
 export default fetchQuizes;
 
 export function quizAnswerClick(answerId) {
@@ -98,20 +120,13 @@ export function quizAnswerClick(answerId) {
         result[question.id] = 'success';
       }
 
-      dispatch(quizSerState({ [answerId]: 'success' }, result)
-      
+      dispatch(quizSetState({ [answerId]: 'success' }, result));
 
       const timeout = window.setTimeout(() => {
-        if (this.isQuizFinished()) {
-          
-          // this.setState({
-          //   isFinished: true,
-          // });
+        if (isQuizFinished(state)) {
+          dispatch(finishQuiz());
         } else {
-          // this.setState({
-          //   activeQuestion: this.state.activeQuestion + 1,
-          //   answerState: null,
-          // });
+          dispatch(quizNextQuestion(state.activeQuestion + 1));
         }
 
         window.clearTimeout(timeout);
@@ -119,8 +134,11 @@ export function quizAnswerClick(answerId) {
     } else {
       result[question.id] = 'error';
 
-      dispatch(quizSerState({ [answerId]: 'error' }, result))
-      
+      dispatch(quizSetState({ [answerId]: 'error' }, result));
     }
   };
+}
+
+function isQuizFinished(state) {
+  return state.activeQuestion + 1 === state.quiz.length;
 }
