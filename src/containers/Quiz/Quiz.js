@@ -23,7 +23,7 @@ export class Quiz extends Component {
     return (
       <div className={classes.Quiz}>
         <div className={classes.QuizWrapper}>
-          <h1>PAEI test</h1>
+          <h1>Try to test</h1>
 
           {this.props.loading || !this.props.quiz ? (
             <Loader />
@@ -31,7 +31,7 @@ export class Quiz extends Component {
             <FinishedQuiz
               result={this.props.result}
               quiz={this.props.quiz}
-              onRetry={this.retryQuiz}
+              onRetry={this.props.retryQuiz}
             />
           ) : (
             <ActiveQuiz

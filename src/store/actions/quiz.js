@@ -95,6 +95,7 @@ export function quizNextQuestion(number) {
 }
 
 export function retryQuiz() {
+  console.log('button clocked');
   return {
     type: QUIZ_RETRY,
   };
