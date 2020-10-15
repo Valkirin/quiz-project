@@ -3,7 +3,8 @@ import {
   FETCH_QUIZES_START,
   FETCH_QUIZES_SUCCESS,
   FETCH_QUIZ_SUCCESS,
-} from '../actions/actionTypes'
+  QUIZ_SET_STATE,
+} from '../actions/actionTypes';
 
 const initialState = {
   quizes: [],
@@ -14,7 +15,7 @@ const initialState = {
   activeQuestion: 0,
   answerState: null,
   quiz: null,
-}
+};
 
 export default function quizReducer(state = initialState, action) {
   switch (action.type) {
@@ -22,26 +23,32 @@ export default function quizReducer(state = initialState, action) {
       return {
         ...state,
         loading: true,
-      }
+      };
     case FETCH_QUIZES_SUCCESS:
       return {
         ...state,
         loading: false,
         quizes: action.quizes,
-      }
+      };
     case FETCH_QUIZES_ERROR:
       return {
         ...state,
         loading: false,
         error: action.error,
-      }
+      };
     case FETCH_QUIZ_SUCCESS:
       return {
         ...state,
         loading: false,
         quiz: action.quiz,
-      }
+      };
+    case QUIZ_SET_STATE:
+      return {
+        ...state,
+        answerState: action.answerState,
+        result: action.result,
+      };
     default:
-      return state
+      return state;
   }
 }

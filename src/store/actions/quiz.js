@@ -1,72 +1,126 @@
-import axios from '../../axios/axios-quiz'
+import axios from '../../axios/axios-quiz';
 import {
   FETCH_QUIZES_ERROR,
   FETCH_QUIZES_START,
   FETCH_QUIZES_SUCCESS,
   FETCH_QUIZ_SUCCESS,
-} from './actionTypes'
+  QUIZ_SET_STATE
+} from './actionTypes';
 
 function fetchQuizes() {
   return async (dispatch) => {
-    dispatch(fetchQuizesStart())
+    dispatch(fetchQuizesStart());
     try {
-      const response = await axios.get('/quiz.json')
+      const response = await axios.get('/quiz.json');
 
-      const quizes = []
+      const quizes = [];
 
       Object.keys(response.data).forEach((key, index) => {
         quizes.push({
           id: key,
           name: `TEST №${index + 1}`,
-        })
-      })
-      dispatch(fetchQuizesSuccess(quizes))
+        });
+      });
+      dispatch(fetchQuizesSuccess(quizes));
     } catch (e) {
-      dispatch(fetchQuizesError(e))
+      dispatch(fetchQuizesError(e));
     }
-  }
+  };
 }
 
 export function fetchQuizById(quizId) {
   return async (dispatch) => {
-    dispatch(fetchQuizesStart())
+    dispatch(fetchQuizesStart());
 
     try {
-      const response = await axios.get(`/quiz/${quizId}.json`)
-      const quiz = response.data
+      const response = await axios.get(`/quiz/${quizId}.json`);
+      const quiz = response.data;
 
-      dispatch(fetchQuizSuccess(quiz))
+      dispatch(fetchQuizSuccess(quiz));
     } catch (e) {
-      fetchQuizesError(e)
+      fetchQuizesError(e);
     }
-  }
+  };
 }
 
 export function fetchQuizSuccess(quiz) {
   return {
     type: FETCH_QUIZ_SUCCESS,
     quiz,
-  }
+  };
 }
 
 export function fetchQuizesStart() {
   return {
     type: FETCH_QUIZES_START,
-  }
+  };
 }
 
 export function fetchQuizesSuccess(quizes) {
   return {
     type: FETCH_QUIZES_SUCCESS,
     quizes,
-  }
+  };
 }
 
 export function fetchQuizesError(e) {
   return {
     type: FETCH_QUIZES_ERROR,
     error: e,
-  }
+  };
 }
 
-export default fetchQuizes
+export function quizSetState(answerState, result) {
+  return {
+    type: QUIZ_SET_STATE,
+    answerState,
+    result,
+  };
+}
+
+export default fetchQuizes;
+
+export function quizAnswerClick(answerId) {
+  return (dispatch, getState) => {
+    const state = getState().quiz;
+
+    if (state.answerState) {
+      const key = Object.keys(state.answerState)[0];
+      if (state.answerState[key] === 'success') {
+        return;
+      }
+    }
+
+    const question = state.quiz[state.activeQuestion];
+    const result = state.result;
+    if (question.rightAnswerId === answerId) {
+      if (!result[question.id]) {
+        result[question.id] = 'success';
+      }
+
+      dispatch(quizSerState({ [answerId]: 'success' }, result)
+      
+
+      const timeout = window.setTimeout(() => {
+        if (this.isQuizFinished()) {
+          
+          // this.setState({
+          //   isFinished: true,
+          // });
+        } else {
+          // this.setState({
+          //   activeQuestion: this.state.activeQuestion + 1,
+          //   answerState: null,
+          // });
+        }
+
+        window.clearTimeout(timeout);
+      }, 1000);
+    } else {
+      result[question.id] = 'error';
+
+      dispatch(quizSerState({ [answerId]: 'error' }, result))
+      
+    }
+  };
+}
