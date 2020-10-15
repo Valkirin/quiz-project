@@ -7,6 +7,10 @@ import { createControl, validate, validateForm } from '../../form/formFrame';
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 import axios from '../../axios/axios-quiz';
 import { connect } from 'react-redux';
+import {
+  finishCreateQuiz,
+  createQuizQuestion,
+} from '../../store/actions/create';
 
 function createOptionControl(number) {
   return createControl(
@@ -37,7 +41,6 @@ function createFormControls() {
 
 class QuizCreator extends Component {
   state = {
-    quiz: [],
     isFormValid: false,
     rightAnswerId: parseInt(1),
     formControls: createFormControls(),
@@ -88,7 +91,6 @@ class QuizCreator extends Component {
     try {
       await axios.post('/quiz.json', this.state.quiz);
       this.setState({
-        quiz: [],
         isFormValid: false,
         rightAnswerId: parseInt(1),
         formControls: createFormControls(),
@@ -179,7 +181,7 @@ class QuizCreator extends Component {
             <Button
               type='success'
               onClick={this.createQuizHandler}
-              disabled={this.state.quiz.length === 0}
+              disabled={this.props.quiz.length === 0}
             >
               Create test
             </Button>
