@@ -53,9 +53,6 @@ class QuizCreator extends Component {
   addQuestionHandler = (event) => {
     event.preventDefault();
 
-    const quiz = this.state.quiz.concat();
-    const index = quiz.length + 1;
-
     const {
       question,
       option1,
@@ -66,7 +63,7 @@ class QuizCreator extends Component {
 
     const questionItem = {
       question: question.value,
-      id: index,
+      id: this.props.quiz.length + 1,
       rightAnswerId: parseInt(this.state.rightAnswerId),
       answers: [
         { text: option1.value, id: option1.id },
@@ -75,10 +72,10 @@ class QuizCreator extends Component {
         { text: option4.value, id: option4.id },
       ],
     };
-    quiz.push(questionItem);
+
+    this.props.createQuizQuestion(questionItem);
 
     this.setState({
-      quiz,
       isFormValid: false,
       rightAnswerId: parseInt(1),
       formControls: createFormControls(),
