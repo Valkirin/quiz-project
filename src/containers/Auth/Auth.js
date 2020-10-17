@@ -5,6 +5,7 @@ import Input from '../../components/UI/Input/Input';
 import is from 'is_js';
 import { connect } from 'react-redux';
 import { auth } from '../../store/actions/auth';
+import Alert from '../../components/UI/Alert/Alert';
 
 class Auth extends Component {
   state = {
@@ -146,6 +147,7 @@ class Auth extends Component {
               Sign Up
             </Button>
           </form>
+          <Alert />
         </div>
       </div>
     );
