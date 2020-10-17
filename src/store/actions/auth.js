@@ -17,19 +17,28 @@ export function auth(email, password, isLogin) {
         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDy6IYvc0nR09uASnHmeK1yIxG1qd6GpTE';
     }
 
-    const response = await axios.post(url, authData);
-    const data = response.data;
+    let response;
 
-    const expirationDate = new Date(
-      new Date().getTime() + data.expiresIn * 1000
-    );
+    try {
+      response = await axios.post(url, authData);
+    } catch (e) {
+      alert('не смог');
+    }
 
-    localStorage.setItem('token', data.idToken);
-    localStorage.setItem('userId', data.localId);
-    localStorage.setItem('expirationDate', expirationDate);
+    if (response && response.data) {
+      const data = response.data;
 
-    dispatch(authSuccess(data.idToken));
-    dispatch(autoLogout(data.expiresIn));
+      const expirationDate = new Date(
+        new Date().getTime() + data.expiresIn * 1000
+      );
+
+      localStorage.setItem('token', data.idToken);
+      localStorage.setItem('userId', data.localId);
+      localStorage.setItem('expirationDate', expirationDate);
+
+      dispatch(authSuccess(data.idToken));
+      dispatch(autoLogout(data.expiresIn));
+    }
   };
 }
 
