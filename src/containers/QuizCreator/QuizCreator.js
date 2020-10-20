@@ -10,6 +10,7 @@ import {
   finishCreateQuiz,
   createQuizQuestion,
 } from '../../store/actions/create';
+import { Alert } from '../../components/UI/Alert/Alert';
 
 function createOptionControl(number) {
   return createControl(
@@ -179,6 +180,7 @@ class QuizCreator extends Component {
             </Button>
           </form>
         </div>
+        <Alert />
       </div>
     );
   }
