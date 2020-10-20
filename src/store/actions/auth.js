@@ -23,7 +23,7 @@ export function auth(email, password, isLogin) {
     try {
       response = await axios.post(url, authData);
     } catch (e) {
-      alertService.error('something broke!', { id: 'left-alert' });
+      alertService.error('Wrong login or password!');
     }
 
     if (response && response.data) {
