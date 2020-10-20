@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { AUTH_LOGOUT, AUTH_SUCCESS } from './actionTypes';
+import { alertService } from '../../components/UI/Alert/alert.service';
 
 export function auth(email, password, isLogin) {
   return async (dispatch) => {
@@ -22,7 +23,7 @@ export function auth(email, password, isLogin) {
     try {
       response = await axios.post(url, authData);
     } catch (e) {
-      alert('не смог');
+      alertService.error('something broke!', { id: 'left-alert' });
     }
 
     if (response && response.data) {

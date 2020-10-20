@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Layout from './hoc/Layout/Layout';
-import { Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import Quiz from './containers/Quiz/Quiz';
 import Auth from './containers/Auth/Auth';
 import QuizList from './containers/QuizList/QuizList';
@@ -8,7 +8,6 @@ import QuizCreator from './containers/QuizCreator/QuizCreator';
 import { connect } from 'react-redux';
 import Logout from './components/Logout/Logout';
 import { autoLogin } from './store/actions/auth';
-import { history } from './components/UI/Alert/history';
 
 class App extends Component {
   componentDidMount() {
@@ -37,11 +36,7 @@ class App extends Component {
       );
     }
 
-    return (
-      <Router history={history}>
-        <Layout>{routes}</Layout>
-      </Router>
-    );
+    return <Layout>{routes}</Layout>;
   }
 }
 

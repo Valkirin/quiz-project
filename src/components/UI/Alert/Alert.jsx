@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { history } from './history';
-import { alertService, alertType } from './alert.service';
+import { alertService, AlertType } from './alert.service';
 
 const propTypes = {
     id: PropTypes.string,
@@ -14,78 +14,74 @@ const defaultProps = {
     fade: true
 };
 
-class Alert extends React.Component {
-    constructor(props) {
-        super(props);
+function Alert({ id, fade }) {
+    const history = useHistory();
+    const [alerts, setAlerts] = useState([]);
 
-        this.state = {
-            alerts: []
-        };
-    }
-
-    componentDidMount() {
+    useEffect(() => {
         // subscribe to new alert notifications
-        this.subscription = alertService.onAlert(this.props.id)
+        const subscription = alertService.onAlert(id)
             .subscribe(alert => {
                 // clear alerts when an empty alert is received
                 if (!alert.message) {
-                    // filter out alerts without 'keepAfterRouteChange' flag
-                    const alerts = this.state.alerts.filter(x => x.keepAfterRouteChange);
+                    setAlerts(alerts => {
+                        // filter out alerts without 'keepAfterRouteChange' flag
+                        const filteredAlerts = alerts.filter(x => x.keepAfterRouteChange);
 
-                    // remove 'keepAfterRouteChange' flag on the rest
-                    alerts.forEach(x => delete x.keepAfterRouteChange);
+                        // remove 'keepAfterRouteChange' flag on the rest
+                        filteredAlerts.forEach(x => delete x.keepAfterRouteChange);
+                        return filteredAlerts;
+                    });
+                } else {
+                    // add alert to array
+                    setAlerts(alerts => ([...alerts, alert]));
 
-                    this.setState({ alerts });
-                    return;
-                }
-
-                // add alert to array
-                this.setState({ alerts: [...this.state.alerts, alert] });
-
-                // auto close alert if required
-                if (alert.autoClose) {
-                    setTimeout(() => this.removeAlert(alert), 3000);
+                    // auto close alert if required
+                    if (alert.autoClose) {
+                        setTimeout(() => removeAlert(alert), 3000);
+                    }
                 }
             });
 
         // clear alerts on location change
-        this.historyUnlisten = history.listen(() => {
-            alertService.clear(this.props.id);
+        const historyUnlisten = history.listen(() => {
+            alertService.clear(id);
         });
-    }
 
-    componentWillUnmount() {
-        // unsubscribe & unlisten to avoid memory leaks
-        this.subscription.unsubscribe();
-        this.historyUnlisten();
-    }
+        // clean up function that runs when the component unmounts
+        return () => {
+            // unsubscribe & unlisten to avoid memory leaks
+            subscription.unsubscribe();
+            historyUnlisten();
+        };
+    }, []);
 
-    removeAlert(alert) {
-        if (this.props.fade) {
+    function removeAlert(alert) {
+        if (fade) {
             // fade out alert
             const alertWithFade = { ...alert, fade: true };
-            this.setState({ alerts: this.state.alerts.map(x => x === alert ? alertWithFade : x) });
+            setAlerts(alerts => alerts.map(x => x === alert ? alertWithFade : x));
 
             // remove alert after faded out
             setTimeout(() => {
-                this.setState({ alerts: this.state.alerts.filter(x => x !== alertWithFade) })
+                setAlerts(alerts => alerts.filter(x => x !== alertWithFade));
             }, 250);
         } else {
             // remove alert
-            this.setState({ alerts: this.state.alerts.filter(x => x !== alert) })
+            setAlerts(alerts => alerts.filter(x => x !== alert));
         }
     }
 
-    cssClasses(alert) {
+    function cssClasses(alert) {
         if (!alert) return;
 
         const classes = ['alert', 'alert-dismissable'];
                 
         const alertTypeClass = {
-            [alertType.success]: 'alert alert-success',
-            [alertType.error]: 'alert alert-danger',
-            [alertType.info]: 'alert alert-info',
-            [alertType.warning]: 'alert alert-warning'
+            [AlertType.Success]: 'alert alert-success',
+            [AlertType.Error]: 'alert alert-danger',
+            [AlertType.Info]: 'alert alert-info',
+            [AlertType.Warning]: 'alert alert-warning'
         }
 
         classes.push(alertTypeClass[alert.type]);
@@ -97,20 +93,20 @@ class Alert extends React.Component {
         return classes.join(' ');
     }
 
-    render() {
-        const { alerts } = this.state;
-        if (!alerts.length) return null;
-        return (
+    if (!alerts.length) return null;
+
+    return (
+        <div className="container">
             <div className="m-3">
                 {alerts.map((alert, index) =>
-                    <div key={index} className={this.cssClasses(alert)}>
-                        <a className="close" onClick={() => this.removeAlert(alert)}>&times;</a>
+                    <div key={index} className={cssClasses(alert)}>
+                        <a className="close" onClick={() => removeAlert(alert)}>&times;</a>
                         <span dangerouslySetInnerHTML={{__html: alert.message}}></span>
                     </div>
                 )}
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 Alert.propTypes = propTypes;

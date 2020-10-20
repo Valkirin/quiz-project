@@ -14,11 +14,11 @@ export const alertService = {
   clear,
 };
 
-export const alertType = {
-  success: 'success',
-  error: 'error',
-  info: 'info',
-  warning: 'warning',
+export const AlertType = {
+  Success: 'Success',
+  Error: 'Error',
+  Info: 'Info',
+  Warning: 'Warning',
 };
 
 // enable subscribing to alerts observable
@@ -28,19 +28,19 @@ function onAlert(id = defaultId) {
 
 // convenience methods
 function success(message, options) {
-  alert({ ...options, type: alertType.success, message });
+  alert({ ...options, type: AlertType.Success, message });
 }
 
 function error(message, options) {
-  alert({ ...options, type: alertType.error, message });
+  alert({ ...options, type: AlertType.Error, message });
 }
 
 function info(message, options) {
-  alert({ ...options, type: alertType.info, message });
+  alert({ ...options, type: AlertType.Info, message });
 }
 
 function warn(message, options) {
-  alert({ ...options, type: alertType.warning, message });
+  alert({ ...options, type: AlertType.Warning, message });
 }
 
 // core alert method
