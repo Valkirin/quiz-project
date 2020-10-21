@@ -1,6 +1,7 @@
 import {
   CREATE_QUIZ_QUESTION,
   RESET_QUIZ_CREATION,
+  GOTO_QUIZ,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -18,6 +19,10 @@ export default function createReducer(state = initialState, action) {
       return {
         ...state,
         quiz: [],
+      };
+    case GOTO_QUIZ:
+      return {
+        ...state,
       };
     default:
       return state;
