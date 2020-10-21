@@ -9,6 +9,7 @@ import {
   QUIZ_NEXT_QUESTION,
   QUIZ_RETRY,
 } from './actionTypes';
+import { alertService } from '../../components/UI/Alert/alert.service';
 
 function fetchQuizes() {
   return async (dispatch) => {
@@ -133,7 +134,7 @@ export function quizAnswerClick(answerId) {
       }, 1000);
     } else {
       result[question.id] = 'error';
-
+      alertService.error('Wrong answer', { autoClose: true });
       dispatch(quizSetState({ [answerId]: 'error' }, result));
     }
   };
