@@ -194,7 +194,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createQuizQuestion: (item) => dispatch(createQuizQuestion(item)),
+    createQuizQuestion: (item, alert) =>
+      dispatch(createQuizQuestion(item, alert)),
     finishCreateQuiz: () => dispatch(finishCreateQuiz()),
   };
 }
