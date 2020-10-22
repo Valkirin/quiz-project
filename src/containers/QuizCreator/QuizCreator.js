@@ -89,7 +89,7 @@ class QuizCreator extends Component {
       rightAnswerId: parseInt(1),
       formControls: createFormControls(),
     });
-    this.props.finishCreateQuiz();
+    this.props.finishCreateQuiz(this.props.history);
   };
 
   changeHandler = (value, controlName) => {
@@ -192,9 +192,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createQuizQuestion: (item, alert) =>
-      dispatch(createQuizQuestion(item, alert)),
-    finishCreateQuiz: () => dispatch(finishCreateQuiz()),
+    createQuizQuestion: (item) => dispatch(createQuizQuestion(item)),
+    finishCreateQuiz: (history) => dispatch(finishCreateQuiz(history)),
   };
 }
 
