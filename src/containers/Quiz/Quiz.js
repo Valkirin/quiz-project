@@ -24,10 +24,11 @@ export class Quiz extends Component {
   render() {
     return (
       <div className={classes.Quiz}>
-        <Link to='/'>
-          <Button type='primary'>Go back</Button>
+        <Link>
+          <Button type='primary' onClick={this.props.history.goBack}>
+            Go back
+          </Button>
         </Link>
-
         <div className={classes.QuizWrapper}>
           <h1>Choose the correct answer</h1>
 
