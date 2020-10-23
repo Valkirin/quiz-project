@@ -9,6 +9,8 @@ import {
   quizAnswerClick,
   retryQuiz,
 } from '../../store/actions/quiz';
+import { Link } from 'react-router-dom';
+import Button from '../../components/UI/Button/Button';
 
 export class Quiz extends Component {
   componentDidMount() {
@@ -22,8 +24,12 @@ export class Quiz extends Component {
   render() {
     return (
       <div className={classes.Quiz}>
+        <Link to='/'>
+          <Button type='primary'>Go back</Button>
+        </Link>
+
         <div className={classes.QuizWrapper}>
-          <h1>Try to test</h1>
+          <h1>Choose the correct answer</h1>
 
           {this.props.loading || !this.props.quiz ? (
             <Loader />
