@@ -3,7 +3,7 @@ import axios from '../../axios/axios-quiz';
 import { alertService } from '../../components/UI/Alert/alert.service';
 
 export function createQuizQuestion(item) {
-  alertService.success('QUESTION CREATED', { autoClose: true });
+  alertService.success('QUESTION ADDED', { autoClose: true });
   return {
     type: CREATE_QUIZ_QUESTION,
     item,
