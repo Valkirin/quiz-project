@@ -1,17 +1,17 @@
 import React from 'react';
-import classes from './Button.css';
+import { ButtonStyles } from './ButtonStyles.js';
 
 const Button = (props) => {
-  const cls = [classes.Button, classes[props.type]];
+  const cls = [ButtonStyles, ButtonStyles[props.type]];
 
   return (
-    <button
+    <ButtonStyles
       onClick={props.onClick}
       className={cls.join(' ')}
       disabled={props.disabled}
     >
       {props.children}
-    </button>
+    </ButtonStyles>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import classes from './QuizCreator.css';
+import { QuizCreatorStyle, styledContainer } from './QuizCreatorStyles';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import Select from '../../components/UI/Select/Select';
@@ -153,8 +153,8 @@ class QuizCreator extends Component {
     );
 
     return (
-      <div className={classes.QuizCreator}>
-        <div>
+      <QuizCreatorStyle>
+        <styledContainer>
           <h1>Create your quiz</h1>
 
           <form onSubmit={this.submitHandler}>
@@ -178,8 +178,8 @@ class QuizCreator extends Component {
               Create test
             </Button>
           </form>
-        </div>
-      </div>
+        </styledContainer>
+      </QuizCreatorStyle>
     );
   }
 }
