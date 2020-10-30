@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { QuizCreatorStyle, styledContainer } from './QuizCreatorStyles';
+import { QuizCreatorStyle } from './QuizCreatorStyles';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import Select from '../../components/UI/Select/Select';
@@ -154,22 +154,19 @@ class QuizCreator extends Component {
 
     return (
       <QuizCreatorStyle>
-        <styledContainer>
+        <div>
           <h1>Create your quiz</h1>
 
           <form onSubmit={this.submitHandler}>
             {this.renderControls()}
 
             {select}
-
             <Button
-              type='primary'
               onClick={this.addQuestionHandler}
               disabled={!this.state.isFormValid}
             >
               Add question
             </Button>
-
             <Button
               type='success'
               onClick={this.createQuizHandler}
@@ -178,7 +175,7 @@ class QuizCreator extends Component {
               Create test
             </Button>
           </form>
-        </styledContainer>
+        </div>
       </QuizCreatorStyle>
     );
   }

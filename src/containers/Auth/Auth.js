@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AuthStyle, AuthForm } from './AuthStyle';
+import { AuthStyle } from './AuthStyle';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import is from 'is_js';
@@ -126,9 +126,8 @@ class Auth extends Component {
       <AuthStyle>
         <div>
           <h1>Authenticate</h1>
-          <AuthForm onSubmit={this.submitHandler}>
+          <form onSubmit={this.submitHandler}>
             {this.renderInputs()}
-
             <Button
               type={'success'}
               onClick={this.loginHandler}
@@ -144,7 +143,7 @@ class Auth extends Component {
             >
               Sign Up
             </Button>
-          </AuthForm>
+          </form>
         </div>
       </AuthStyle>
     );

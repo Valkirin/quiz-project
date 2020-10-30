@@ -25,7 +25,7 @@ export const ButtonStyles = styled.button`
     cursor: not-allowed;
   }
 
-  .success {
+  .success & {
     background: rgba(161, 240, 69, 1);
   }
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-const styledContainer = styled.div``;
+
 export const QuizCreatorStyle = styled.div`
   display: flex;
   justify-content: center;
@@ -8,11 +8,10 @@ export const QuizCreatorStyle = styled.div`
   width: 100%;
   background: linear-gradient(270deg, #f0613c 0%, #f0783c 100%);
 
-  > ${styledContainer} {
+  div {
     width: 100%;
     max-width: 700px;
     padding: 0px 20px;
-    background: red;
   }
 
   h1 {
