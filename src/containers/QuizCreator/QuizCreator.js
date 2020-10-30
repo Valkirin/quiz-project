@@ -162,6 +162,7 @@ class QuizCreator extends Component {
 
             {select}
             <Button
+              type='primary'
               onClick={this.addQuestionHandler}
               disabled={!this.state.isFormValid}
             >
